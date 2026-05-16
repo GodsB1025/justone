@@ -308,6 +308,35 @@ node ~/.claude/skills/justone/scripts/upload-submission.mjs
 └─ credentials       # your jo_pat_* token, one line
 ```
 
+## Update
+
+When a newer version of the plugin ships, run **one line**:
+
+```bash
+node ~/.claude/skills/justone/scripts/update.mjs
+```
+
+What it does:
+1. Compares your installed `VERSION` with the latest on GitHub.
+2. If newer (or `--force`), shallow-clones the latest source to a temp dir.
+3. Runs that copy's `install.mjs` to overwrite `~/.claude/commands/justone*.md` and `~/.claude/skills/justone/`.
+4. Cleans up the temp dir.
+
+Your CLI token at `~/.justone/credentials` is never touched. After updating, restart Claude Code if it's running, to pick up any slash-command changes.
+
+Flags:
+```bash
+node ~/.claude/skills/justone/scripts/update.mjs --dry-run   # show what would happen
+node ~/.claude/skills/justone/scripts/update.mjs --force     # reinstall even if same version
+```
+
+Manual alternative (if you cloned this repo and want to keep your fork in sync):
+```bash
+cd /path/to/your/clone
+git pull
+node install.mjs
+```
+
 ## Uninstall
 
 ```bash

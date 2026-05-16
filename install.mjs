@@ -114,6 +114,14 @@ async function installFiles(targetRoot, dryRun) {
       src: join(srcDir, 'skills', 'justone'),
       dst: targetSkillJustone,
     },
+    {
+      // Stamp the version into the installed skill dir so update.mjs can
+      // compare local vs remote. Source is at the plugin repo root (../VERSION).
+      kind: 'copy',
+      src: join(srcDir, '..', 'VERSION'),
+      dst: join(targetSkillJustone, 'VERSION'),
+      optional: true,
+    },
   ]
 
   for (const step of planned) {
@@ -134,6 +142,10 @@ async function installFiles(targetRoot, dryRun) {
     } else if (step.kind === 'copy') {
       const srcExists = await exists(step.src)
       if (!srcExists) {
+        if (step.optional) {
+          log(`skip   (no ${step.src}) — optional`, 'info')
+          continue
+        }
         log(`missing source: ${step.src}`, 'err')
         process.exit(1)
       }

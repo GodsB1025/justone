@@ -308,6 +308,35 @@ node ~/.claude/skills/justone/scripts/upload-submission.mjs
 └─ credentials       # jo_pat_* 토큰 한 줄
 ```
 
+## 업데이트
+
+새 버전이 나오면 **한 줄** 실행:
+
+```bash
+node ~/.claude/skills/justone/scripts/update.mjs
+```
+
+수행 과정:
+1. 설치된 `VERSION` 과 GitHub 최신 비교.
+2. 최신이 더 높으면 (또는 `--force`), 최신 소스를 임시 디렉토리에 shallow clone.
+3. 그 카피의 `install.mjs` 실행 → `~/.claude/commands/justone*.md` + `~/.claude/skills/justone/` 덮어씀.
+4. 임시 디렉토리 정리.
+
+`~/.justone/credentials` 의 토큰은 절대 손대지 않음. 업데이트 후 Claude Code 가 떠 있으면 슬래시 커맨드 변경 반영 위해 재시작.
+
+플래그:
+```bash
+node ~/.claude/skills/justone/scripts/update.mjs --dry-run   # 무엇이 바뀔지 미리보기
+node ~/.claude/skills/justone/scripts/update.mjs --force     # 같은 버전이어도 재설치
+```
+
+수동 방식 (이 repo 를 fork 해서 관리 중인 경우):
+```bash
+cd /path/to/your/clone
+git pull
+node install.mjs
+```
+
 ## 제거
 
 ```bash
