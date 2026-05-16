@@ -71,8 +71,11 @@ async function readLocal() {
 }
 
 async function readRemote() {
+  // raw.githubusercontent.com aggressively caches negative responses, so we
+  // attach a millisecond cache-buster to make sure we always see the latest.
+  const url = `${VERSION_URL}?_cb=${Date.now()}`
   try {
-    const res = await fetch(VERSION_URL, {
+    const res = await fetch(url, {
       headers: { 'Cache-Control': 'no-cache' },
     })
     if (!res.ok) return null
