@@ -46,6 +46,10 @@ const promptHash =
 
 const now = new Date().toISOString()
 
+// Build manifest with sensible defaults. Optional URL fields are *omitted*
+// rather than set to "" — the gallery schema validates URLs strictly, and
+// an empty string is not a valid URL. The agent will add `localUrl` later
+// only if the project actually serves at a URL (web projects).
 const manifest = {
   version: MANIFEST_VERSION,
   title: '',
@@ -60,7 +64,6 @@ const manifest = {
   stack: [],
   installCommand: '',
   startCommand: '',
-  localUrl: '',
   summary: '',
   thumbnailPath: null,
   screenshotPath: null,
